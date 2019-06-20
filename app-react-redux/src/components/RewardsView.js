@@ -1,14 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import Api from "../api/api";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {fetchStudentRewards} from "../redux/actions";
 
-function RewardsView({match}) {
+function RewardsView({studentRewards: state, match}) {
   const {params:{id:studentId}} = match;
-  const [state, setState] = useState([]);
-  useEffect(()=>{
-    Api.student.rewards.fetch(setState, studentId);
-    return () => {setState([])};
-  }, [studentId]);
+
+  useState(() => {
+    fetchStudentRewards(studentId);
+    return () => {
+      console.log('unmount RewardsView');
+      state = [];
+    };
+  });
 
   return (<div>
     <h1>Rewards for Student {studentId}</h1>
@@ -36,4 +41,6 @@ function RewardsView({match}) {
   </div>);
 }
 
-export default RewardsView;
+const mapStateToProps = ({studentRewards}) => ({studentRewards});
+export default connect(mapStateToProps)(RewardsView);
+

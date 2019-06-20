@@ -1,14 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import Api from "../api/api";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {fetchStudentCourses} from "../redux/actions";
 
-function CoursesView({match}) {
-  const {params:{id:studentId}} = match;
-  const [state, setState] = useState([]);
-  useEffect(()=>{
-    Api.student.courses.fetch(setState, studentId);
-    return () => {setState([])};
-  }, [studentId]);
+function CoursesView({match, studentCourses: state}) {
+  const {params: {id: studentId}} = match;
+
+  useState(() => {
+    fetchStudentCourses(studentId);
+    return () => {
+      console.log('unmount CoursesView');
+      state = [];
+    };
+  }, []);
 
   return (<div>
     <h1>Courses for Student {studentId}</h1>
@@ -22,7 +27,7 @@ function CoursesView({match}) {
       </thead>
       <tbody>
 
-      {(state).map((s, i) => (
+      {(state || []).map((s, i) => (
         <tr key={i}>
           <td>{s.id}</td>
           <td>{s.name}</td>
@@ -36,4 +41,5 @@ function CoursesView({match}) {
   </div>);
 }
 
-export default CoursesView;
+const mapStateToProps = ({studentCourses}) => ({studentCourses});
+export default connect(mapStateToProps)(CoursesView);

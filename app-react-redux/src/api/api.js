@@ -1,19 +1,22 @@
-const fetchStudent = (cb) => {
-  fetch('http://localhost:4001/students')
+const fetchStudent = async (cb) => {
+  const data = await fetch('http://localhost:4001/students')
     .then(r => r.json())
-    .then(r => cb && cb(r));
+    .then(r => r);
+  return data;
 };
 
-const fetchStudentCourses = (cb, studentId) => {
-  fetch(`http://localhost:4001/courses/?student_id=${studentId}`)
+const fetchStudentCourses =  async (studentId) => {
+  const data = await fetch(`http://localhost:4001/courses/?student_id=${studentId}`)
     .then(r => r.json())
-    .then(r => cb && cb(r));
+    .then(r => r);
+  return data;
 };
 
-const fetchStudentRewards = (cb, studentId) => {
-  fetch(`http://localhost:4001/rewards/?student_id=${studentId}`)
+const fetchStudentRewards =  async (studentId) => {
+  const data = await fetch(`http://localhost:4001/rewards/?student_id=${studentId}`)
     .then(r => r.json())
-    .then(r => cb && cb(r));
+    .then(r => r);
+  return data;
 };
 
 export default {

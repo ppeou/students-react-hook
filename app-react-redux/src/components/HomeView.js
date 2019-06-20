@@ -1,27 +1,32 @@
+import {connect, props} from 'react-redux';
 import React, {useState, useEffect} from 'react';
 import Api from '../api/api'
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {fetchStudents} from '../redux/actions';
 
-function HomeView() {
-  const [state, setState] = useState([]);
-  useEffect(() => {
-    Api.student.fetch(setState);
-    return () => {setState([]);}
+function HomeView({students: state}) {
+
+  useState(() => {
+    fetchStudents();
+    return () => {
+      console.log('unmount HomeView');
+      state = [];
+    };
   }, []);
+
   return (<div>
     <h1>Students</h1>
     <table>
       <thead>
       <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th />
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th/>
       </tr>
       </thead>
       <tbody>
-
-      {(state).map((s, i) => (
+      {(state || []).map((s, i) => (
         <tr key={i}>
           <td>{s.id}</td>
           <td>{s.name}</td>
@@ -37,4 +42,9 @@ function HomeView() {
   </div>)
 }
 
-export default HomeView;
+const mapStateToProps = (state) => {
+  const {students} = state;
+  return {students};
+};
+
+export default connect(mapStateToProps)(HomeView);

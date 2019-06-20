@@ -35,7 +35,7 @@
 nav ul {list-style: none; display: flex; flex-direction: row;}
 nav li {display: inline-block; padding: 5px 10px;}
 
-table {width: auto; margin: 0 auto;}
+table {width: auto; margin: 0 auto; border-collapse: collapse; border-spacing: 0;}
 table thead th, table thead td {border-bottom: solid 2px #ccc;}
 table th, table td {padding: 5px 10px;}
 
