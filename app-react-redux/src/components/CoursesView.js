@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import Api from "../api/api";
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {fetchStudentCourses} from "../redux/actions";
@@ -7,13 +6,9 @@ import {fetchStudentCourses} from "../redux/actions";
 function CoursesView({match, studentCourses: state}) {
   const {params: {id: studentId}} = match;
 
-  useState(() => {
+  useEffect(() => {
     fetchStudentCourses(studentId);
-    return () => {
-      console.log('unmount CoursesView');
-      state = [];
-    };
-  }, []);
+  }, [studentId]);
 
   return (<div>
     <h1>Courses for Student {studentId}</h1>

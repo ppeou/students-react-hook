@@ -1,17 +1,12 @@
-import {connect, props} from 'react-redux';
-import React, {useState, useEffect} from 'react';
-import Api from '../api/api'
+import {connect} from 'react-redux';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {fetchStudents} from '../redux/actions';
 
 function HomeView({students: state}) {
 
-  useState(() => {
+  useEffect(() => {
     fetchStudents();
-    return () => {
-      console.log('unmount HomeView');
-      state = [];
-    };
   }, []);
 
   return (<div>
@@ -42,9 +37,5 @@ function HomeView({students: state}) {
   </div>)
 }
 
-const mapStateToProps = (state) => {
-  const {students} = state;
-  return {students};
-};
 
-export default connect(mapStateToProps)(HomeView);
+export default connect(({students}) => ({students}))(HomeView);

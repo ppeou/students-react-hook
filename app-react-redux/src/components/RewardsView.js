@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import Api from "../api/api";
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {fetchStudentRewards} from "../redux/actions";
@@ -7,13 +6,9 @@ import {fetchStudentRewards} from "../redux/actions";
 function RewardsView({studentRewards: state, match}) {
   const {params:{id:studentId}} = match;
 
-  useState(() => {
+  useEffect(() => {
     fetchStudentRewards(studentId);
-    return () => {
-      console.log('unmount RewardsView');
-      state = [];
-    };
-  });
+  }, [studentId]);
 
   return (<div>
     <h1>Rewards for Student {studentId}</h1>
